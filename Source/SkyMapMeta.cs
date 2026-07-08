@@ -2,7 +2,7 @@
 using Celeste.Mod.SkysOverworldCore.Meta;
 namespace Celeste.Mod.SkysOverworldCore;
 
-public class SkysMapMeta : MapMeta
+public class SkyMapMeta : MapMeta
 {
     public SkysOverworldCoreMeta SkysOverworldCore;
 }

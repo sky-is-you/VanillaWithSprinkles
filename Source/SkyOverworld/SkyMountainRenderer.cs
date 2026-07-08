@@ -26,7 +26,7 @@ public class SkyMountainRenderer : MountainRenderer
 
     private void ChangeOverlayAlphaTarget(AreaKey area)
     {
-        SkysMapMeta meta = OverworldHelperImports.ReadConfig<SkysMapMeta>(area);
+        SkyMapMeta meta = OverworldHelperImports.ReadConfig<SkyMapMeta>(area);
         if (meta != null && meta.SkysOverworldCore != null)
         {
             overlayEaser.Target = meta.SkysOverworldCore.OverlayOpacity;
