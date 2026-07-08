@@ -1,4 +1,4 @@
-﻿namespace Celeste.Mod.SkysOverworldCore.Meta;
+﻿namespace Celeste.Mod.SkysOverworldCore.SkyMeta;
 
 public class SkysOverworldCoreMeta
 {
