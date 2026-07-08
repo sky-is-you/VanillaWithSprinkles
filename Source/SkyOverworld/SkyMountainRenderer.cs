@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monocle;
 
-namespace Celeste.Mod.SkysOverworldCore;
+namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
-public class SkysMountainRenderer : MountainRenderer
+public class SkyMountainRenderer : MountainRenderer
 {
-    private SkysOverworld overworld;
+    private SkyOverworld overworld;
     private Easer overlayEaser;
     private Easer vignetteEaser;
-    public SkysMountainRenderer(SkysOverworld parentOverworld) : base()
+    public SkyMountainRenderer(SkyOverworld parentOverworld) : base()
     {
         overworld = parentOverworld;
         overlayEaser = new(.45f, 1f);
@@ -18,7 +18,7 @@ public class SkysMountainRenderer : MountainRenderer
         OverworldHelperImports.AreaChanged += ChangeOverlayAlphaTarget;
     }
 
-    ~SkysMountainRenderer()
+    ~SkyMountainRenderer()
     {
         OverworldHelperImports.AreaChanged -= ChangeOverlayAlphaTarget;
         Dispose();

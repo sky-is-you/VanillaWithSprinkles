@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using Monocle;
 
-namespace Celeste.Mod.SkysOverworldCore;
+namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
-public class SkysOverworldLoader : OverworldLoader
+public class SkyOverworldLoader : OverworldLoader
 {
-    public SkysOverworldLoader(Overworld.StartMode start, HiresSnow snow=null) : base(start, snow)
+    public SkyOverworldLoader(Overworld.StartMode start, HiresSnow snow=null) : base(start, snow)
     {
     }
 
@@ -17,7 +17,7 @@ public class SkysOverworldLoader : OverworldLoader
         if (!MTN.Loaded) MTN.Load();
         if (!MTN.DataLoaded) MTN.LoadData();
         if (!SkysOverworldCoreModule.AssetsLoaded) SkysOverworldCoreModule.Instance.LoadAssets();
-        overworld = new SkysOverworld(this);
+        overworld = new SkyOverworld(this);
         Entity takeoverEntity = new Entity();
         takeoverEntity.Add(new Coroutine(Takeover()));
         Add(takeoverEntity);

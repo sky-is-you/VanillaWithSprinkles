@@ -1,9 +1,9 @@
-﻿namespace Celeste.Mod.SkysOverworldCore;
+﻿namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
-public class SkysOverworld : Overworld
+public class SkyOverworld : Overworld
 {
     public HudRenderer hudRenderer;
-    public SkysOverworld(SkysOverworldLoader loader) : base(loader)
+    public SkyOverworld(SkyOverworldLoader loader) : base(loader)
     {
         Logger.Info("SkysOverworldCore","SkysOverworld Constructor Called");
         Maddy.Hide();
@@ -11,7 +11,7 @@ public class SkysOverworld : Overworld
         Remove(Mountain);
         Mountain.Dispose();
         Add(hudRenderer = new HudRenderer());
-        Add(Mountain = new SkysMountainRenderer(this));
+        Add(Mountain = new SkyMountainRenderer(this));
         Add(Maddy = new Maddy3D(Mountain));
         Mountain.OnEaseEnd = () =>
         {

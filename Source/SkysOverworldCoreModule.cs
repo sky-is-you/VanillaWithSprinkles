@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Monocle;
 using MonoMod.ModInterop;
+using Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
 namespace Celeste.Mod.SkysOverworldCore;
 
@@ -49,7 +50,7 @@ public class SkysOverworldCoreModule : EverestModule {
     private IEnumerator LoadCustomOverworldRoutine()
     {
         yield return null;
-        Engine.Scene = new SkysOverworldLoader(Overworld.StartMode.MainMenu); // TODO some way to get startmode
+        Engine.Scene = new SkyOverworldLoader(Overworld.StartMode.MainMenu); // TODO some way to get startmode
     }
 
     public override void Load()
