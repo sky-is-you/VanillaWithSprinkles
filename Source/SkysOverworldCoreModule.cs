@@ -31,32 +31,41 @@ public class SkysOverworldCoreModule : EverestModule {
         Logger.SetLogLevel(nameof(SkysOverworldCoreModule), LogLevel.Info);
 #endif
     }
-
-    private void TakeoverVanillaOverworld(Overworld overworld)
-    {
-        Logger.Info("SkysOverworldCore","Taking over");
-        Entity takeoverEntity = new Entity();
-        takeoverEntity.Add(new Coroutine(LoadCustomOverworldRoutine()));
-        overworld.Add(takeoverEntity);
-        overworld.Update();
-    }
-
     public void LoadAssets()
     {
         UISprites = new(GFX.Gui,"Graphics/SkysOverworldCoreXmls/Overworld.xml");
         AssetsLoaded = true;
     }
 
-    private IEnumerator LoadCustomOverworldRoutine()
+    private void LoadCustomOverworld() => LoadCustomOverworld(Overworld.StartMode.Titlescreen);
+    private void LoadCustomOverworld(Overworld.StartMode startMode)
     {
-        yield return null;
-        Engine.Scene = new SkyOverworldLoader(Overworld.StartMode.MainMenu); // TODO some way to get startmode
+        HiresSnow snow = null;
+        if (Engine.Scene.GetType().IsAssignableTo(typeof(GameLoader)))
+            snow = ((GameLoader)Engine.Scene).Snow;
+        if (Engine.Scene.GetType().IsAssignableTo(typeof(OverworldLoader)))
+            snow = ((OverworldLoader)Engine.Scene).Snow;
+        Engine.Scene = new SkyOverworldLoader(startMode,snow); // TODO some way to get startmode
     }
 
+    // TODO: fix black screen in between takeover
+    private void TakeoverVanillaOverworld(Overworld overworld)
+    {
+        Logger.Info("SkysOverworldCore","Taking over");
+        overworld.Remove(overworld.Mountain); // avoid weird crash TODO: what is this
+        overworld.Current.PreUpdate += entity => LoadCustomOverworld(Overworld.StartMode.MainMenu);
+    }
+    
     public override void Load()
     {
         typeof(OverworldHelperImports).ModInterop();
-        if (Settings.Enabled) OverworldHelperImports.VanillaOverworldLoaded += TakeoverVanillaOverworld;
+        if (Settings.Enabled)
+        {
+            // takeover overworld whenever it loads
+            OverworldHelperImports.VanillaOverworldLoaded += TakeoverVanillaOverworld;
+            // start into our overworld instead of vanilla when game loads
+            Everest.Events.GameLoader.OnLoadThread += LoadCustomOverworld;
+        }
     }
 
     public override void Unload() {
