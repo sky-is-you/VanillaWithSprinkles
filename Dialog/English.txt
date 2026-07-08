@@ -1,0 +1,3 @@
+SkysOverworldCore=Sky's Overworld Core
+SkysOverworldCore_Settings=Sky's Overworld Core
+SkysOverworldCore_Settings_Enabled=Enabled
