@@ -1,4 +1,9 @@
-﻿namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Monocle;
+
+namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
 public class SkyOverworld : Overworld
 {
@@ -6,12 +11,31 @@ public class SkyOverworld : Overworld
     public SkyOverworld(SkyOverworldLoader loader) : base(loader)
     {
         Logger.Info("SkysOverworldCore","SkysOverworld Constructor Called");
-        Maddy.Hide();
+        // purge scene
+        base.Entities.UpdateLists();
+        // remove entities from base init for which no variable name is assigned
+        foreach (Entity e in Entities.Where((entity) =>
+                 {
+                     return (
+                         entity.GetType().IsAssignableTo(typeof(MoonParticle3D)) ||
+                         entity.GetType().IsAssignableTo(typeof(HudRenderer)) ||
+                         entity.GetType().IsAssignableTo(typeof(InputEntity)));
+                 }))
+        {
+            Logger.Info("SkysOverworldCore",e.GetType().Name);
+            Remove(e);
+        }
         Remove(Maddy);
+        Remove(Snow3D);
+        Remove(Snow);
         Remove(Mountain);
-        Mountain.Dispose();
-        Add(hudRenderer = new HudRenderer());
+        // reinit stuff
         Add(Mountain = new SkyMountainRenderer(this));
+        Add(hudRenderer = new HudRenderer());
+        Add(new InputEntity(this));
+        Add(Snow = loader.Snow ?? new HiresSnow());
+        Add(Snow3D = new Snow3D(Mountain.Model));
+        Add(new MoonParticle3D(Mountain.Model, new Vector3(0, 31, 0)));
         Add(Maddy = new Maddy3D(Mountain));
         Mountain.OnEaseEnd = () =>
         {

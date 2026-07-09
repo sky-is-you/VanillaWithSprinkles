@@ -26,7 +26,7 @@ public class SkyMountainRenderer : MountainRenderer
 
     private void ChangeOverlayAlphaTarget(AreaKey area)
     {
-        SkyMapMeta meta = OverworldHelperImports.ReadConfig<SkyMapMeta>(area);
+        SkyMapMeta meta = OverworldHelperImports.FindConfig<SkyMapMeta>(area);
         if (meta != null && meta.SkysOverworldCore != null)
         {
             overlayEaser.Target = meta.SkysOverworldCore.OverlayOpacity;
@@ -47,7 +47,7 @@ public class SkyMountainRenderer : MountainRenderer
         Draw.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
         OVR.Atlas["vignette"].Draw(Vector2.Zero,Vector2.Zero,new Color(Calc.HexToColor("333333"),vignetteEaser.Ease));
         Draw.SpriteBatch.End();
-        overworld.hudRenderer.RenderContent(scene);
+//        overworld.hudRenderer.RenderContent(scene);
         if (inFreeCameraDebugMode)
         {
             Draw.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);

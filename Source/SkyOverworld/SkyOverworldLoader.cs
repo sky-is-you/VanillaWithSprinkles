@@ -21,6 +21,7 @@ public class SkyOverworldLoader : OverworldLoader
         Entity takeoverEntity = new Entity();
         takeoverEntity.Add(new Coroutine(Takeover()));
         Add(takeoverEntity);
+        base.Entities.UpdateLists();
         Update();
     }
 
