@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Monocle;
 using MonoMod.ModInterop;
 using Celeste.Mod.SkysOverworldCore.SkyOverworld;
@@ -38,33 +39,19 @@ public class SkysOverworldCoreModule : EverestModule {
         UISprites = new(GFX.Gui,"Graphics/SkysOverworldCoreXmls/Overworld.xml");
         AssetsLoaded = true;
     }
-    private SkyOverworldLoader GetNewCustomOverworld(Overworld.StartMode startMode)
-    {
-        HiresSnow snow = null;
-        if (Engine.Scene.GetType().IsAssignableTo(typeof(GameLoader)))
-            snow = ((GameLoader)Engine.Scene).Snow;
-        if (Engine.Scene.GetType().IsAssignableTo(typeof(OverworldLoader)))
-            snow = ((OverworldLoader)Engine.Scene).Snow;
-        return new SkyOverworldLoader(startMode,snow); // TODO some way to get startmode
-    }
-
-    private void LoadCustomOverworld() => LoadCustomOverworld(Overworld.StartMode.Titlescreen);
-    private void LoadCustomOverworld(Overworld.StartMode startMode)
-    {
-        HiresSnow snow = null;
-        if (Engine.Scene.GetType().IsAssignableTo(typeof(GameLoader)))
-            snow = ((GameLoader)Engine.Scene).Snow;
-        if (Engine.Scene.GetType().IsAssignableTo(typeof(OverworldLoader)))
-            snow = ((OverworldLoader)Engine.Scene).Snow;
-        Engine.Scene = GetNewCustomOverworld(startMode); // TODO some way to get startmode
-    }
 
     // TODO: fix black screen in between takeover
-    private void TakeoverVanillaOverworld(Overworld overworld)
+    private void TakeoverVanillaOverworld(On.Celeste.OverworldLoader.orig_LoadThread orig, OverworldLoader self)
     {
         Logger.Info("SkysOverworldCore","Taking over");
-        overworld.Remove(overworld.Mountain); // avoid weird crash TODO: what is this
-        overworld.Current.PreUpdate += entity => LoadCustomOverworld(Overworld.StartMode.MainMenu);
+        if (!MTN.Loaded) MTN.Load();
+        if (!MTN.DataLoaded) MTN.LoadData();
+        self.CheckVariantsPostcardAtLaunch();
+        self.overworld = new SkyOverworld.SkyOverworld(self);
+        self.overworld.Entities.UpdateLists();
+        self.RendererList.UpdateLists();
+        self.loaded = true;
+        self.activeThread.Priority = ThreadPriority.Normal;
     }
     
     public override void Load()
@@ -72,16 +59,14 @@ public class SkysOverworldCoreModule : EverestModule {
         typeof(OverworldHelperImports).ModInterop();
         if (Settings.Enabled)
         {
+            Everest.Events.GameLoader.OnLoadThread += LoadAssets;
             // takeover overworld whenever it loads
-            OverworldHelperImports.VanillaOverworldCreated += TakeoverVanillaOverworld;
-            // start into our overworld instead of vanilla when game loads
-            Everest.Events.GameLoader.OnLoadThread += LoadCustomOverworld;
+            SkyOverworld.SkyOverworld.DummifyVanilla();
+            On.Celeste.OverworldLoader.LoadThread += TakeoverVanillaOverworld;
         }
     }
-    
-    
 
     public override void Unload() {
-        if (Settings.Enabled) OverworldHelperImports.VanillaOverworldCreated -= TakeoverVanillaOverworld;
+        if (Settings.Enabled) On.Celeste.OverworldLoader.LoadThread -= TakeoverVanillaOverworld;;
     }
 }

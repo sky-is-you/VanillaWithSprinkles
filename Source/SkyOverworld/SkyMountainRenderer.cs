@@ -1,7 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monocle;
+using On.MonoMod;
+using BindingFlags = System.Reflection.BindingFlags;
 
 namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
@@ -10,23 +13,22 @@ public class SkyMountainRenderer : MountainRenderer
     private SkyOverworld overworld;
     private Easer overlayEaser;
     private Easer vignetteEaser;
+    private int _Area;
     public SkyMountainRenderer(SkyOverworld parentOverworld) : base()
     {
+        Model.Dispose();
         overworld = parentOverworld;
+        Model = new MountainModel();
         overlayEaser = new(.45f, 1f);
         vignetteEaser = new(.2f, .8f);
-        OverworldHelperImports.AreaChanged += ChangeOverlayAlphaTarget;
+        OverworldHelperImports.AreaChangedID += ChangeOverlayAlphaTarget;
+        GotoRotationMode();
     }
 
-    ~SkyMountainRenderer()
+    private void ChangeOverlayAlphaTarget(int areaID)
     {
-        OverworldHelperImports.AreaChanged -= ChangeOverlayAlphaTarget;
-        Dispose();
-    }
-
-    private void ChangeOverlayAlphaTarget(AreaKey area)
-    {
-        SkyMapMeta meta = OverworldHelperImports.FindConfig<SkyMapMeta>(area);
+        if (areaID < 0 || areaID >= AreaData.Areas.Count) return;
+        SkyMapMeta meta = OverworldHelperImports.FindConfig<SkyMapMeta>(areaID);
         if (meta != null && meta.SkysOverworldCore != null)
         {
             overlayEaser.Target = meta.SkysOverworldCore.OverlayOpacity;
