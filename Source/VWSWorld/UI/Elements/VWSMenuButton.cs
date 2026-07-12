@@ -3,26 +3,26 @@ using Celeste.Mod.Core;
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Elements;
+namespace Celeste.Mod.VanillaWithSprinkles.VWSWorld.UI.Elements;
 
-public abstract class OwsMenuButton : Entity
+public abstract class VWSMenuButton : Entity
 {	public Vector2 TargetPosition;
 
     public Vector2 TweenFrom;
 
-    public OwsMenuButton LeftButton;
+    public VWSMenuButton LeftButton;
 
-    public OwsMenuButton RightButton;
+    public VWSMenuButton RightButton;
 
-    public OwsMenuButton UpButton;
+    public VWSMenuButton UpButton;
 
-    public OwsMenuButton DownButton;
+    public VWSMenuButton DownButton;
 
     public Action OnConfirm;
 
     private bool canAcceptInput;
 
-    private OwsUi owsui;
+    private VWSUi owsui;
 
     private bool selected;
 
@@ -105,7 +105,7 @@ public abstract class OwsMenuButton : Entity
         }
     }
 
-    public OwsMenuButton(OwsUi owsui, Vector2 targetPosition, Vector2 tweenFrom, Action onConfirm)
+    public VWSMenuButton(VWSUi owsui, Vector2 targetPosition, Vector2 tweenFrom, Action onConfirm)
         : base(tweenFrom)
     {
         TargetPosition = targetPosition;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Monocle;
 using MonoMod.ModInterop;
 
-namespace Celeste.Mod.OverworldWithSprinkles;
+namespace Celeste.Mod.VanillaWithSprinkles;
 
 public class OverworldWithSprinklesModule : EverestModule {
     public static OverworldWithSprinklesModule Instance { get; private set; }
@@ -33,14 +33,14 @@ public class OverworldWithSprinklesModule : EverestModule {
     
     public void LoadAssets()
     {
-        UISprites = new(GFX.Gui,"Graphics/OverworldWithSprinklesXmls/Overworld.xml");
+        UISprites = new(GFX.Gui,"Graphics/VanillaWithSprinklesXmls/Overworld.xml");
         AssetsLoaded = true;
         Everest.Events.GameLoader.OnLoadThread -= LoadAssets; // remove callback after fired
     }
 
     private void RegisterOverworld()
     {
-        OverworldSwitcherImports.RegisterOverworldScene(typeof(CustomOverworld.OwsOverworld), "Overworld w/ Sprinkles");
+        OverworldSwitcherImports.RegisterOverworldScene(typeof(VWSWorld.VWSOverworld), "Vanilla w/ Sprinkles");
         // todo make mods only need to do registration once on game load
 //        OverworldSwitcherImports.OverworldLoading -= RegisterOverworld;
     }

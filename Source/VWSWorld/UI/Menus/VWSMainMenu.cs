@@ -2,28 +2,28 @@
 using Monocle;
 using Microsoft.Xna.Framework;
 
-namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Menus;
+namespace Celeste.Mod.VanillaWithSprinkles.VWSWorld.UI.Menus;
 
-public class OwsMainMenu : OwsUi
+public class VWSMainMenu : VWSUi
 {
-    public OwsMainMenu()
+    public VWSMainMenu()
     {
     }
 
-    public override IEnumerator Enter(OwsUi from)
+    public override IEnumerator Enter(VWSUi from)
     {
         MyOverworld.Mountain.EaseCamera(0, new MountainCamera(new Vector3(0,25,15),new Vector3(0,5,0)),targetRotate:true);
         yield return null;
         Visible = true;
     }
 
-    public override IEnumerator Leave(OwsUi next)
+    public override IEnumerator Leave(VWSUi next)
     {
         yield return null;
         Visible = false;
     }
 
-    public override bool IsStart(OwsOverworld world, Overworld.StartMode start)
+    public override bool IsStart(VWSOverworld world, Overworld.StartMode start)
     {
         if (start == Overworld.StartMode.MainMenu)
         {
@@ -37,7 +37,7 @@ public class OwsMainMenu : OwsUi
 
     public override void Update()
     {
-        if (Focused && Selected && Input.MenuCancel.Pressed) MyOverworld.Goto<OwsTitle>();
+        if (Focused && Selected && Input.MenuCancel.Pressed) MyOverworld.Goto<VWSTitle>();
         base.Update();
     }
     public override void Render()

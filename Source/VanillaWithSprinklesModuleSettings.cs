@@ -1,4 +1,4 @@
-namespace Celeste.Mod.OverworldWithSprinkles;
+namespace Celeste.Mod.VanillaWithSprinkles;
 
 [SettingName("skysoverworld_settings")]
 public class OverworldWithSprinklesModuleSettings : EverestModuleSettings

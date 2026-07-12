@@ -1,9 +1,9 @@
 ﻿using Celeste.Mod.Meta;
 using Monocle;
 
-namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld;
+namespace Celeste.Mod.VanillaWithSprinkles.VWSWorld;
 
-public class OwsMountainRenderer : MountainRenderer
+public class VWSMountainRenderer : MountainRenderer
 {
     public override void Update(Scene scene)
     {
@@ -20,7 +20,7 @@ public class OwsMountainRenderer : MountainRenderer
         {
             orig_Update(scene);
         }
-        OwsOverworld overworld = scene as OwsOverworld;
+        VWSOverworld overworld = scene as VWSOverworld;
         //if (!flag && inFreeCameraDebugMode && ((overworld.Current ?? overworld.Next) is OuiFileNaming { UseKeyboardInput: not false } || (overworld.Current ?? overworld.Next) is OuiModOptionString { UseKeyboardInput: not false }))
         //{
         //    inFreeCameraDebugMode = false;

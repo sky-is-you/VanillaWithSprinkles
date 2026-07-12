@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Monocle;
 
-namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Elements;
+namespace Celeste.Mod.VanillaWithSprinkles.VWSWorld.UI.Elements;
 
-public class OwsMainMenuSmallButton : OwsMenuButton
+public class VWSMainMenuSmallButton : VWSMenuButton
 {
 	private const float IconWidth = 64f;
 
@@ -40,7 +40,7 @@ public class OwsMainMenuSmallButton : OwsMenuButton
 
 	public Wiggler Wiggler => wiggler;
 
-	public OwsMainMenuSmallButton(string labelName, string iconName, OwsUi owsui, Vector2 targetPosition, Vector2 tweenFrom, Action onConfirm)
+	public VWSMainMenuSmallButton(string labelName, string iconName, VWSUi owsui, Vector2 targetPosition, Vector2 tweenFrom, Action onConfirm)
 		: base(owsui, targetPosition, tweenFrom, onConfirm)
 	{
 		LabelName = labelName;

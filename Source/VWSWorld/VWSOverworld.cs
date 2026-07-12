@@ -6,28 +6,28 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monocle;
-using Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI;
+using Celeste.Mod.VanillaWithSprinkles.VWSWorld.UI;
 using Celeste.Mod.UI;
 
-namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld;
+namespace Celeste.Mod.VanillaWithSprinkles.VWSWorld;
 
-public class OwsOverworld : Scene
+public class VWSOverworld : Scene
 {
     public HiresSnow Snow;
-    public OwsMountainRenderer Mountain;
+    public VWSMountainRenderer Mountain;
     
-    public OwsUi Last;
-    public OwsUi Current;
-    public OwsUi Next;
-    public List<OwsUi> UIs = new List<OwsUi>();
+    public VWSUi Last;
+    public VWSUi Current;
+    public VWSUi Next;
+    public List<VWSUi> UIs = new List<VWSUi>();
     private bool transitioning;
     private Entity routineEntity;
     
     private bool drawWatermark = true;
     public float inputEase = 1f;
-    public OwsOverworld(OverworldLoader loader)
+    public VWSOverworld(OverworldLoader loader)
     {
-        Add(Mountain = new OwsMountainRenderer());
+        Add(Mountain = new VWSMountainRenderer());
         Add(new HudRenderer());
         Add(routineEntity = new Entity());
         Add(Snow = loader.Snow ?? new HiresSnow());
@@ -40,10 +40,10 @@ public class OwsOverworld : Scene
     {
         UIs.ForEach(Remove);
         UIs.Clear();
-        IEnumerable<Type> OwsUiTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => (type.Namespace?.StartsWith("Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Menus") ?? false) && type.IsAssignableTo(typeof(OwsUi)));
+        IEnumerable<Type> OwsUiTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => (type.Namespace?.StartsWith("Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Menus") ?? false) && type.IsAssignableTo(typeof(VWSUi)));
         foreach (Type OwsUiType in OwsUiTypes)
         {
-            OwsUi oui = RegisterUiType(OwsUiType);
+            VWSUi oui = RegisterUiType(OwsUiType);
             if (oui.IsStart(this, startMode))
             {
                 oui.Visible = true;
@@ -52,9 +52,9 @@ public class OwsOverworld : Scene
         }
     }
 
-    public OwsUi RegisterUiType(Type type)
+    public VWSUi RegisterUiType(Type type)
     {
-        OwsUi oui = (OwsUi)Activator.CreateInstance(type);
+        VWSUi oui = (VWSUi)Activator.CreateInstance(type);
         if (oui == null) return null;
         oui.Visible = false;
         Add(oui);
@@ -62,14 +62,14 @@ public class OwsOverworld : Scene
         return oui;
     }
 
-    public T Goto<T>() where T : OwsUi
+    public T Goto<T>() where T : VWSUi
     {
         T UI = GetUI<T>();
         if (UI!=null) routineEntity.Add(new Coroutine(GotoRoutine(UI)));
         return UI;
     }
 
-    private IEnumerator GotoRoutine(OwsUi next)
+    private IEnumerator GotoRoutine(VWSUi next)
     {
         while (Current == null) yield return null;
         transitioning = true;
@@ -89,7 +89,7 @@ public class OwsOverworld : Scene
         Next = null;
     }
 
-    public T GetUI<T>() where T : OwsUi => (T)UIs.Find(UI => UI is T);
+    public T GetUI<T>() where T : VWSUi => (T)UIs.Find(UI => UI is T);
 
     public override void Render()
     {
@@ -97,9 +97,9 @@ public class OwsOverworld : Scene
         if (drawWatermark)
         {
             Draw.SpriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Additive);
-            ActiveFont.Draw("Overworld with Sprinkles", new Vector2(56+16,1080-8-28+16), new Vector2(0,1), Vector2.One*.75f, Calc.HexToColor("16344A"));
+            ActiveFont.Draw("Vanilla with Sprinkles", new Vector2(56+16,1080-8-28+16), new Vector2(0,1), Vector2.One*.75f, Calc.HexToColor("16344A"));
             ActiveFont.Draw("v0.2.0 (prerel) - have fun :>", new Vector2(56+16,1080-8-28+16), new Vector2(0,.25f), Vector2.One*.75f/2, Calc.HexToColor("16344A"));
-            OverworldWithSprinklesModule.UISprites.Atlas["SkyIsYou/OverworldWithSprinkles/icon/img"].Draw(new Vector2(8,1080-8-28), new Vector2(0,28));
+            OverworldWithSprinklesModule.UISprites.Atlas["SkyIsYou/VanillaWithSprinkles/icon/img"].Draw(new Vector2(8,1080-8-28), new Vector2(0,28));
             Draw.SpriteBatch.End();
         }
     }
