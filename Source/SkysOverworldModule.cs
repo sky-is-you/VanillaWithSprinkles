@@ -40,7 +40,7 @@ public class SkysOverworldModule : EverestModule {
 
     private void RegisterOverworld()
     {
-        OverworldSwitcherImports.RegisterOverworldScene(typeof(SkysOverworld), "Sky's Overworld");
+        OverworldSwitcherImports.RegisterOverworldScene(typeof(CustomOverworld.SkysOverworld), "Sky's Overworld");
         // todo make mods only need to do registration once on game load
 //        OverworldSwitcherImports.OverworldLoading -= RegisterOverworld;
     }
