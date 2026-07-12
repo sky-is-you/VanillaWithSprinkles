@@ -40,6 +40,7 @@ public class SkysOverworldCoreModule : EverestModule {
 
     public override void Load()
     {
+        typeof(OverworldSwitcherImports).ModInterop();
         Everest.Events.GameLoader.OnLoadThread += LoadAssets;
     }
 
