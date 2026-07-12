@@ -1,6 +1,6 @@
-namespace Celeste.Mod.SkysOverworldCore;
+namespace Celeste.Mod.SkysOverworld;
 
-[SettingName("skysoverworldcore_settings")]
+[SettingName("skysoverworld_settings")]
 public class SkysOverworldModuleSettings : EverestModuleSettings
 {
 }

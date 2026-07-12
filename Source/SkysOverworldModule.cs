@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Monocle;
 using MonoMod.ModInterop;
 
-namespace Celeste.Mod.SkysOverworldCore;
+namespace Celeste.Mod.SkysOverworld;
 
 public class SkysOverworldModule : EverestModule {
     public static SkysOverworldModule Instance { get; private set; }

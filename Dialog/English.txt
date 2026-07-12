@@ -1,3 +1,2 @@
-SkysOverworldCore=Sky's Overworld Core
-SkysOverworldCore_Settings=Sky's Overworld Core
-SkysOverworldCore_Settings_Enabled=Enabled
+SkysOverworld=Sky's Overworld
+SkysOverworld_Settings=Sky's Overworld
