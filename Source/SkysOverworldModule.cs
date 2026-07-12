@@ -6,13 +6,13 @@ using MonoMod.ModInterop;
 
 namespace Celeste.Mod.SkysOverworldCore;
 
-public class SkysOverworldCoreModule : EverestModule {
-    public static SkysOverworldCoreModule Instance { get; private set; }
+public class SkysOverworldModule : EverestModule {
+    public static SkysOverworldModule Instance { get; private set; }
 
-    public override Type SettingsType => typeof(SkysOverworldCoreModuleSettings);
+    public override Type SettingsType => typeof(SkysOverworldModuleSettings);
     public static SpriteBank UISprites;
     public static bool AssetsLoaded=false;
-    public static SkysOverworldCoreModuleSettings Settings => (SkysOverworldCoreModuleSettings) Instance._Settings;
+    public static SkysOverworldModuleSettings Settings => (SkysOverworldModuleSettings) Instance._Settings;
 
 //    public override Type SessionType => typeof(SkysOverworldCoreModuleSession);
 //    public static SkysOverworldCoreModuleSession Session => (SkysOverworldCoreModuleSession) Instance._Session;
@@ -20,14 +20,14 @@ public class SkysOverworldCoreModule : EverestModule {
 //    public override Type SaveDataType => typeof(SkysOverworldCoreModuleSaveData);
 //    public static SkysOverworldCoreModuleSaveData SaveData => (SkysOverworldCoreModuleSaveData) Instance._SaveData;
 
-    public SkysOverworldCoreModule() {
+    public SkysOverworldModule() {
         Instance = this;
 #if DEBUG
         // debug builds use verbose logging
         Logger.SetLogLevel(nameof(SkysOverworldCoreModule), LogLevel.Verbose);
 #else
         // release builds use info logging to reduce spam in log files
-        Logger.SetLogLevel(nameof(SkysOverworldCoreModule), LogLevel.Info);
+        Logger.SetLogLevel(nameof(SkysOverworldModule), LogLevel.Info);
 #endif
     }
     
