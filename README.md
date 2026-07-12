@@ -1,2 +1,2 @@
-# Overworld with Sprinkles
+# Vanilla with Sprinkles
 A faithful reimplementation of Celeste's overworld (chapter select screen) with greater support for configuration by map mods
