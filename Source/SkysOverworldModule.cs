@@ -38,10 +38,20 @@ public class SkysOverworldModule : EverestModule {
         Everest.Events.GameLoader.OnLoadThread -= LoadAssets; // remove callback after fired
     }
 
+    private void RegisterOverworld()
+    {
+        OverworldSwitcherImports.RegisterOverworldScene(typeof(SkysOverworld), "Sky's Overworld");
+        // todo make mods only need to do registration once on game load
+//        OverworldSwitcherImports.OverworldLoading -= RegisterOverworld;
+    }
+    
+    
+
     public override void Load()
     {
         typeof(OverworldSwitcherImports).ModInterop();
         Everest.Events.GameLoader.OnLoadThread += LoadAssets;
+        OverworldSwitcherImports.OverworldLoading += RegisterOverworld;
     }
 
     public override void Unload() {
