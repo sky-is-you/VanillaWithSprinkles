@@ -97,8 +97,8 @@ public class VWSOverworld : Scene
         if (drawWatermark)
         {
             Draw.SpriteBatch.Begin(SpriteSortMode.Immediate,BlendState.Additive);
-            ActiveFont.Draw("Vanilla with Sprinkles", new Vector2(56+16,1080-8-28+16), new Vector2(0,1), Vector2.One*.75f, Calc.HexToColor("16344A"));
-            ActiveFont.Draw("v0.2.0 (prerel) - have fun :>", new Vector2(56+16,1080-8-28+16), new Vector2(0,.25f), Vector2.One*.75f/2, Calc.HexToColor("16344A"));
+            ActiveFont.Draw("Vanilla with Sprinkles", new Vector2(56+16,1080-8-28+16), new Vector2(0,1), Vector2.One*.75f,Color.White*.5f);
+            ActiveFont.Draw("v0.2.0 (prerel) - have fun :>", new Vector2(56+16,1080-8-28+16), new Vector2(0,.25f), Vector2.One*.75f/2, Color.White*.5f);
             OverworldWithSprinklesModule.UISprites.Atlas["SkyIsYou/VanillaWithSprinkles/icon/img"].Draw(new Vector2(8,1080-8-28), new Vector2(0,28));
             Draw.SpriteBatch.End();
         }
