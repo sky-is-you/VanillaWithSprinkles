@@ -40,7 +40,7 @@ public class OverworldWithSprinklesModule : EverestModule {
 
     private void RegisterOverworld()
     {
-        OverworldSwitcherImports.RegisterOverworldScene(typeof(CustomOverworld.OwsOverworld), "Overworld w Sprinkles");
+        OverworldSwitcherImports.RegisterOverworldScene(typeof(CustomOverworld.OwsOverworld), "Overworld w/ Sprinkles");
         // todo make mods only need to do registration once on game load
 //        OverworldSwitcherImports.OverworldLoading -= RegisterOverworld;
     }

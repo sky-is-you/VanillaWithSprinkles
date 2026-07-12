@@ -1,4 +1,2 @@
-# Sky's Overworld
-A mod-focused reimplementation of Celeste's overworld a.k.a. chapter select screen
-
-Adds several additional hooks and opportunities to tinker
+# Overworld with Sprinkles
+A reimplementation of Celeste's overworld (chapter select screen) with greater support for configuration by map mods
