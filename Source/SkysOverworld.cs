@@ -17,5 +17,6 @@ public class SkysOverworld : Scene
         base.Render();
         Draw.SpriteBatch.Begin(SpriteSortMode.Immediate,BlendState.NonPremultiplied);
         ActiveFont.Draw("Test scene\nHello world\nSky's Overworld v0.2.0 Overhaul", Vector2.Zero, Color.White);
+        Draw.SpriteBatch.End();
     }
 }
