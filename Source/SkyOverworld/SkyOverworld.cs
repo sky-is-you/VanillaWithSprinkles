@@ -8,17 +8,26 @@ namespace Celeste.Mod.SkysOverworldCore.SkyOverworld;
 
 public class SkyOverworld : Overworld
 {
+    public void PreConstructor()
+    {
+        DummifyVanilla();
+    }
+
     public SkyOverworld(OverworldLoader loader) : base(loader)
     {
         Logger.Info("SkysOverworldCore","SkysOverworld Constructor Called");
         Add(Mountain = new SkyMountainRenderer(this));
-        Add(new HudRenderer());
-        Add(routineEntity = new Entity());
-        Add(new InputEntity(this));
-        Add(Snow = loader.Snow ?? new HiresSnow());
-        Add(Snow3D = new Snow3D(Mountain.Model));
+        Maddy.Renderer = Mountain;
+        Snow3D.Model = Mountain.Model;
+        foreach (Entity e in Entities)
+        {
+            if (e.GetType().IsAssignableTo(typeof(MoonParticle3D))) Remove(e);
+            if (e.GetType().IsAssignableTo(typeof(HudRenderer))) e.RemoveSelf();
+        }
+
+        HudRenderer temp;
+        Add(temp = new HudRenderer());
         Add(new MoonParticle3D(Mountain.Model, new Vector3(0, 31, 0)));
-        Add(Maddy = new Maddy3D(Mountain));
         ReloadMenus(loader.StartMode);
         Mountain.OnEaseEnd = () =>
         {

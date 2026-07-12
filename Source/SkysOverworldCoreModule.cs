@@ -14,9 +14,10 @@ public class SkysOverworldCoreModule : EverestModule {
     public static SkysOverworldCoreModule Instance { get; private set; }
 
     public override Type SettingsType => typeof(SkysOverworldCoreModuleSettings);
+    public static SkysOverworldCoreModuleSettings Settings => (SkysOverworldCoreModuleSettings) Instance._Settings;
+
     public static SpriteBank UISprites;
     public static bool AssetsLoaded=false;
-    public static SkysOverworldCoreModuleSettings Settings => (SkysOverworldCoreModuleSettings) Instance._Settings;
 
 //    public override Type SessionType => typeof(SkysOverworldCoreModuleSession);
 //    public static SkysOverworldCoreModuleSession Session => (SkysOverworldCoreModuleSession) Instance._Session;
@@ -38,35 +39,22 @@ public class SkysOverworldCoreModule : EverestModule {
     {
         UISprites = new(GFX.Gui,"Graphics/SkysOverworldCoreXmls/Overworld.xml");
         AssetsLoaded = true;
+        OverworldSwitcherImports.OverworldLoading += RegisterWorld;
     }
 
-    // TODO: fix black screen in between takeover
-    private void TakeoverVanillaOverworld(On.Celeste.OverworldLoader.orig_LoadThread orig, OverworldLoader self)
+    private void RegisterWorld()
     {
-        Logger.Info("SkysOverworldCore","Taking over");
-        if (!MTN.Loaded) MTN.Load();
-        if (!MTN.DataLoaded) MTN.LoadData();
-        self.CheckVariantsPostcardAtLaunch();
-        self.overworld = new SkyOverworld.SkyOverworld(self);
-        self.overworld.Entities.UpdateLists();
-        self.RendererList.UpdateLists();
-        self.loaded = true;
-        self.activeThread.Priority = ThreadPriority.Normal;
+        OverworldSwitcherImports.RegisterOverworldScene(typeof(SkyOverworld.SkyOverworld), "Sky's Overworld");
     }
-    
+
     public override void Load()
     {
         typeof(OverworldHelperImports).ModInterop();
-        if (Settings.Enabled)
-        {
-            Everest.Events.GameLoader.OnLoadThread += LoadAssets;
-            // takeover overworld whenever it loads
-            SkyOverworld.SkyOverworld.DummifyVanilla();
-            On.Celeste.OverworldLoader.LoadThread += TakeoverVanillaOverworld;
-        }
+        typeof(OverworldSwitcherImports).ModInterop();
+        Everest.Events.GameLoader.OnLoadThread += LoadAssets;
     }
 
     public override void Unload() {
-        if (Settings.Enabled) On.Celeste.OverworldLoader.LoadThread -= TakeoverVanillaOverworld;;
+        Everest.Events.GameLoader.OnLoadThread -= LoadAssets;
     }
 }
