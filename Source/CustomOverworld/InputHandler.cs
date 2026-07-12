@@ -1,6 +1,6 @@
 ﻿using Monocle;
 
-namespace Celeste.Mod.SkysOverworld.CustomOverworld;
+namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld;
 
 public class InputHandler : Entity
 {

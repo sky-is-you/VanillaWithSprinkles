@@ -1,6 +1,6 @@
-- Name: Sky's Overworld
+- Name: Overworld with Sprinkles
   Version: 0.1.0
-  DLL: bin/SkysOverworld.dll
+  DLL: bin/OverworldWithSprinkles.dll
   Dependencies:
     - Name: EverestCore
       Version: 1.5935.0

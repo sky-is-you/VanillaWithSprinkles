@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Sprites>
-  <icon path="SkyIsYou/SkysOverworld/icon/" start="img">
+  <icon path="SkyIsYou/OverworldWithSprinkles/icon/" start="img">
     <Justify x="0" y="1"/>
     <Loop id="img" path="img"/>
   </icon>

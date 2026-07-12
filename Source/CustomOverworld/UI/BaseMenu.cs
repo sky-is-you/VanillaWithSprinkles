@@ -1,6 +1,6 @@
 ﻿using Monocle;
 
-namespace Celeste.Mod.SkysOverworld.CustomOverworld.UI;
+namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI;
 
 public class BaseMenu : Entity
 {

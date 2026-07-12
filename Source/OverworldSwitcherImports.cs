@@ -2,7 +2,7 @@ using System;
 using Celeste.Mod.Meta;
 using MonoMod.ModInterop;
 
-namespace Celeste.Mod.SkysOverworld;
+namespace Celeste.Mod.OverworldWithSprinkles;
 
 [ModImportName("OverworldSwitcher")]
 public static class OverworldSwitcherImports
