@@ -1,6 +1,6 @@
 - Name: Sky's Overworld
   Version: 0.1.0
-  DLL: bin/SkysOverworldCore.dll
+  DLL: bin/SkysOverworld.dll
   Dependencies:
     - Name: EverestCore
       Version: 1.5935.0

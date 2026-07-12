@@ -24,7 +24,7 @@ public class SkysOverworldModule : EverestModule {
         Instance = this;
 #if DEBUG
         // debug builds use verbose logging
-        Logger.SetLogLevel(nameof(SkysOverworldCoreModule), LogLevel.Verbose);
+        Logger.SetLogLevel(nameof(SkysOverworldModule), LogLevel.Verbose);
 #else
         // release builds use info logging to reduce spam in log files
         Logger.SetLogLevel(nameof(SkysOverworldModule), LogLevel.Info);
