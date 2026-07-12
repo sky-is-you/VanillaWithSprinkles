@@ -40,7 +40,7 @@ public class VWSOverworld : Scene
     {
         UIs.ForEach(Remove);
         UIs.Clear();
-        IEnumerable<Type> OwsUiTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => (type.Namespace?.StartsWith("Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Menus") ?? false) && type.IsAssignableTo(typeof(VWSUi)));
+        IEnumerable<Type> OwsUiTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => (type.Namespace?.StartsWith("Celeste.Mod.VanillaWithSprinkles.VWSWorld.UI.Menus") ?? false) && type.IsAssignableTo(typeof(VWSUi)));
         foreach (Type OwsUiType in OwsUiTypes)
         {
             VWSUi oui = RegisterUiType(OwsUiType);
