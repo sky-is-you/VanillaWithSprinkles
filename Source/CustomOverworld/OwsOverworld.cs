@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monocle;
 using Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI;
@@ -9,16 +14,82 @@ namespace Celeste.Mod.OverworldWithSprinkles.CustomOverworld;
 public class OwsOverworld : Scene
 {
     public HiresSnow Snow;
-    public TitleMenu Menu;
-    public HudRenderer Hud;
+    public OwsMountainRenderer Mountain;
+    
+    public OwsUi Last;
+    public OwsUi Current;
+    public OwsUi Next;
+    public List<OwsUi> UIs = new List<OwsUi>();
+    private bool transitioning;
+    private Entity routineEntity;
+    
     private bool drawWatermark = true;
+    public float inputEase = 1f;
     public OwsOverworld(OverworldLoader loader)
     {
-        Add(new InputHandler());
-        Add(Menu = new TitleMenu());
-        Add(Hud = new HudRenderer());
-        Add(Snow = loader.Snow);
+        Add(Mountain = new OwsMountainRenderer());
+        Add(new HudRenderer());
+        Add(routineEntity = new Entity());
+        Add(Snow = loader.Snow ?? new HiresSnow());
+        Add(new Snow3D(Mountain.Model));
+        RendererList.UpdateLists();
+        ReloadMenus(loader.StartMode);
     }
+
+    public void ReloadMenus(Overworld.StartMode startMode)
+    {
+        UIs.ForEach(Remove);
+        UIs.Clear();
+        IEnumerable<Type> OwsUiTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => (type.Namespace?.StartsWith("Celeste.Mod.OverworldWithSprinkles.CustomOverworld.UI.Menus") ?? false) && type.IsAssignableTo(typeof(OwsUi)));
+        foreach (Type OwsUiType in OwsUiTypes)
+        {
+            OwsUi oui = RegisterUiType(OwsUiType);
+            if (oui.IsStart(this, startMode))
+            {
+                oui.Visible = true;
+                Last = (Current = oui);
+            }
+        }
+    }
+
+    public OwsUi RegisterUiType(Type type)
+    {
+        OwsUi oui = (OwsUi)Activator.CreateInstance(type);
+        if (oui == null) return null;
+        oui.Visible = false;
+        Add(oui);
+        UIs.Add(oui);
+        return oui;
+    }
+
+    public T Goto<T>() where T : OwsUi
+    {
+        T UI = GetUI<T>();
+        if (UI!=null) routineEntity.Add(new Coroutine(GotoRoutine(UI)));
+        return UI;
+    }
+
+    private IEnumerator GotoRoutine(OwsUi next)
+    {
+        while (Current == null) yield return null;
+        transitioning = true;
+        Next = next;
+        Last = Current;
+        Current = null;
+        Last.Focused = false;
+        yield return Last.Leave(next);
+        if (next.Scene != null)
+        {
+            yield return next.Enter(Last);
+            next.Focused = true;
+            Current = next;
+            transitioning = false;
+        }
+
+        Next = null;
+    }
+
+    public T GetUI<T>() where T : OwsUi => (T)UIs.Find(UI => UI is T);
 
     public override void Render()
     {
@@ -31,5 +102,12 @@ public class OwsOverworld : Scene
             OverworldWithSprinklesModule.UISprites.Atlas["SkyIsYou/OverworldWithSprinkles/icon/img"].Draw(new Vector2(8,1080-8-28), new Vector2(0,28));
             Draw.SpriteBatch.End();
         }
+    }
+
+    public override void Update()
+    {
+        inputEase -= Engine.DeltaTime;
+        if (inputEase <= 0) inputEase += 1;
+        base.Update();
     }
 }
