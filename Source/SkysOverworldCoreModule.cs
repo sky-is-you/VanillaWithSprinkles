@@ -30,35 +30,19 @@ public class SkysOverworldCoreModule : EverestModule {
         Logger.SetLogLevel(nameof(SkysOverworldCoreModule), LogLevel.Info);
 #endif
     }
-
-    private void TakeoverVanillaOverworld(Overworld overworld)
-    {
-        Logger.Info("SkysOverworldCore","Taking over");
-        Entity takeoverEntity = new Entity();
-        takeoverEntity.Add(new Coroutine(LoadCustomOverworldRoutine()));
-        overworld.Add(takeoverEntity);
-        overworld.Update();
-    }
-
+    
     public void LoadAssets()
     {
         UISprites = new(GFX.Gui,"Graphics/SkysOverworldCoreXmls/Overworld.xml");
         AssetsLoaded = true;
-    }
-
-    private IEnumerator LoadCustomOverworldRoutine()
-    {
-        yield return null;
-        Engine.Scene = new SkysOverworldLoader(Overworld.StartMode.MainMenu); // TODO some way to get startmode
+        Everest.Events.GameLoader.OnLoadThread -= LoadAssets; // remove callback after fired
     }
 
     public override void Load()
     {
-        typeof(OverworldHelperImports).ModInterop();
-        if (Settings.Enabled) OverworldHelperImports.VanillaOverworldLoaded += TakeoverVanillaOverworld;
+        Everest.Events.GameLoader.OnLoadThread += LoadAssets;
     }
 
     public override void Unload() {
-        if (Settings.Enabled) OverworldHelperImports.VanillaOverworldLoaded -= TakeoverVanillaOverworld;
     }
 }
