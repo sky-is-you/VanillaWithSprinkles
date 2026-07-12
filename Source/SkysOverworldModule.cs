@@ -33,7 +33,7 @@ public class SkysOverworldModule : EverestModule {
     
     public void LoadAssets()
     {
-        UISprites = new(GFX.Gui,"Graphics/SkysOverworldCoreXmls/Overworld.xml");
+        UISprites = new(GFX.Gui,"Graphics/SkysOverworldXmls/Overworld.xml");
         AssetsLoaded = true;
         Everest.Events.GameLoader.OnLoadThread -= LoadAssets; // remove callback after fired
     }
