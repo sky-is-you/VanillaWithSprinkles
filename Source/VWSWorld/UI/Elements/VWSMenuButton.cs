@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Celeste.Mod.Core;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -50,11 +52,11 @@ public abstract class VWSMenuButton : Entity
         {
             if (base.Scene == null)
             {
-                throw new Exception("Cannot set Selected while MenuButton is not in a Scene.");
+                throw new Exception("Cannot set Selected while VWSMenuButton is not in a Scene.");
             }
             if (!selected && value)
             {
-                MenuButton selection = GetSelection(base.Scene);
+                VWSMenuButton selection = GetSelection(base.Scene);
                 if (selection != null)
                 {
                     selection.Selected = false;
@@ -74,35 +76,27 @@ public abstract class VWSMenuButton : Entity
 
     public bool _Selected
     {
-        get
-        {
-            return selected;
-        }
-        set
-        {
-            selected = value;
-        }
+        get => selected;
+        set => selected = value;
     }
 
-    public static MenuButton GetSelection(Scene scene)
+    public static VWSMenuButton GetSelection(Scene scene)
     {
-        foreach (MenuButton entity in scene.Tracker.GetEntities<MenuButton>())
-        {
-            if (entity.Selected)
-            {
-                return entity;
-            }
+        IEnumerable<VWSMenuButton> buttons = scene.Entities
+            .Where(ent => ent.GetType().IsAssignableTo(typeof(VWSMenuButton)))
+            .Select(ent => (VWSMenuButton)ent);
+        foreach (Entity btn in buttons) {
+            Logger.Info("vws",btn.ToString());
+            if (((VWSMenuButton)btn).Selected) return (VWSMenuButton)btn;
         }
+        Logger.Info("vws","nothing selected");
         return null;
     }
 
     public static void ClearSelection(Scene scene)
     {
-        MenuButton selection = GetSelection(scene);
-        if (selection != null)
-        {
-            selection.Selected = false;
-        }
+        VWSMenuButton selection = GetSelection(scene);
+        if (selection != null) selection.Selected = false;
     }
 
     public VWSMenuButton(VWSUi owsui, Vector2 targetPosition, Vector2 tweenFrom, Action onConfirm)

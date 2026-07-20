@@ -9,7 +9,7 @@ public class VWSMountainRenderer : MountainRenderer
     {
         AreaData areaData = ((-1 < Area && Area < (AreaData.Areas?.Count ?? 0)) ? AreaData.Get(Area) : null);
         MapMeta obj = areaData?.Meta;
-        bool flag = inFreeCameraDebugMode;
+        //bool flag = inFreeCameraDebugMode;
         if (obj?.Mountain?.ShowCore == true)
         {
             Area = 9;
@@ -20,7 +20,7 @@ public class VWSMountainRenderer : MountainRenderer
         {
             orig_Update(scene);
         }
-        VWSOverworld overworld = scene as VWSOverworld;
+        //VWSOverworld overworld = scene as VWSOverworld;
         //if (!flag && inFreeCameraDebugMode && ((overworld.Current ?? overworld.Next) is OuiFileNaming { UseKeyboardInput: not false } || (overworld.Current ?? overworld.Next) is OuiModOptionString { UseKeyboardInput: not false }))
         //{
         //    inFreeCameraDebugMode = false;

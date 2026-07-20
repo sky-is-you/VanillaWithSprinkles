@@ -31,7 +31,7 @@ public class VWSTitle : VWSUi
 
     public override void Update()
     {
-        int gamepadIndex = -1;
+        int gamepadIndex;
         if (Selected && Input.AnyGamepadConfirmPressed(out gamepadIndex))
         {
             Input.Gamepad = gamepadIndex;
